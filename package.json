@@ -2,5 +2,8 @@
   "dependencies": {
     "colors": "^1.4.0",
     "readline-sync": "^1.4.10"
+  },
+  "devDependencies": {
+    "@types/node": "^18.16.2"
   }
 }
