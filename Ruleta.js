@@ -1,99 +1,64 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 exports.__esModule = true;
 exports.Ruleta = void 0;
-var Juego_1 = require("./Juego");
-var Ruleta = /** @class */ (function (_super) {
-    __extends(Ruleta, _super);
-    function Ruleta(pApuestaMinima, pProbabilidadGanar) {
-        var _this = _super.call(this, pApuestaMinima, pProbabilidadGanar) || this;
-        _this.dinero = 0;
-        _this.numeros = [];
-        for (var i = 0; i <= 36; i++) {
-            _this.numeros.push(i);
-        }
-        _this.color = [];
-        for (var i = 0; i <= 36; i++) {
-            if (i === 0) {
-                _this.color.push("verde");
-            }
-            else if (i >= 1 && i <= 10) {
-                if (i % 2 === 0) {
-                    _this.color.push("negro");
-                }
-                else {
-                    _this.color.push("rojo");
-                }
-            }
-            else if (i >= 11 && i <= 18) {
-                if (i % 2 === 0) {
-                    _this.color.push("rojo");
-                }
-                else {
-                    _this.color.push("negro");
-                }
-            }
-            else if (i >= 19 && i <= 28) {
-                if (i % 2 === 0) {
-                    _this.color.push("negro");
-                }
-                else {
-                    _this.color.push("rojo");
-                }
-            }
-            else if (i >= 29 && i <= 36) {
-                if (i % 2 === 0) {
-                    _this.color.push("rojo");
-                }
-                else {
-                    _this.color.push("negro");
-                }
-            }
-        }
-        return _this;
+var Jugador_1 = require("./Jugador");
+var Ruleta = /** @class */ (function () {
+    function Ruleta(pJugador) {
+        this.jugador = pJugador;
+        this.dinero = 1000;
+        this.apuesta = 0;
     }
+    Ruleta.prototype.jugar = function () {
+        var readline = require('readline-sync');
+        var bonus = Math.floor(Math.random() * 6);
+        console.log(" \n Su bonus es de: x".concat(bonus, " "));
+        var nroApostado = readline.question("\n Que numero desea apostar? ");
+        console.clear();
+        console.log("\n Girando...");
+        console.log(" Girando...");
+        var nroGanador = Math.floor(Math.random() * 37);
+        console.log("\n El numero ganador es ".concat(nroGanador));
+        if (nroApostado == nroGanador) {
+            console.log("\n Felcitaciones, usted a ganado...");
+            var dineroGanado = ((this.dinero + this.apuesta) * bonus);
+            console.log("  Su dinero es: $".concat(dineroGanado, " \n "));
+        }
+        else {
+            console.log("\n \u00A1Que mala suerte, usted a perdido!");
+            var dineroPerdido = (this.dinero - this.apuesta);
+            console.log("  Su dinero es: $".concat(dineroPerdido, " \n "));
+            this.retirarse();
+        }
+    };
+    Ruleta.prototype.retirarse = function () {
+        var readline = require('readline-sync');
+        var seguirJugando = readline.question("\n Quiere seguir jugando? [S/N] ");
+        console.clear();
+        if (seguirJugando.toLowerCase() === "n") {
+            console.log("\n Gracias por jugar a la Ruleta, vuelva pronto!");
+            console.log("\n Su dinero final es de ".concat(this.dinero));
+        }
+        else {
+            this.jugar();
+        }
+    };
     Ruleta.prototype.iniciar = function () {
         var readline = require('readline-sync');
-        this.jugador.getDinero = readline.question('Ingrese su dinero: ');
-        console.log("\nBienvenido al juego de la Ruleta. Su saldo actual es de ".concat(this.dinero, " fichas.\n"));
-        while (this.dinero >= this.apuestaMinima)
+        console.log(" \n \u00A1Bienvenido al juego de la Ruleta! \n ");
+        console.log("  Su dinero es: $".concat(this.dinero, " \n "));
+        this.apuesta = readline.question(" \n Ingrese su apuesta: $");
+        console.clear();
+        if (this.dinero >= this.apuesta) {
             this.jugar();
-        if (this.dinero < this.apuestaMinima) {
-            console.log("Dinero insufisiente, ingrese de nuevo dinero para poder jugar");
-            console.log("Su dinero actual es de ".concat(this.jugador.dineroActual, " y la apuesta minima es de ").concat(this.apuestaMinima));
-            return;
         }
-        var seguirJugando = readline.question("Quiere seguir jugando? [S/N] ");
-        if (seguirJugando.toLowerCase() === "n") {
-            console.log("Gracias por jugar a la Ruleta, vuelva pronto!");
-            console.log("Su dinero final es de ".concat(this.dinero));
+        else {
+            (this.dinero < this.apuesta);
+            console.log("\n Dinero es insufisiente, ingrese mas dinero para poder jugar");
         }
-    };
-    Ruleta.prototype.jugar = function () {
-    };
-    Ruleta.prototype.girar = function () {
-        var valor = Math.floor(Math.random() * this.numeros.length);
-        var numero = this.numeros[valor];
-        var color = this.color[valor];
-        return [numero, color];
     };
     return Ruleta;
-}(Juego_1.Juego));
+}());
 exports.Ruleta = Ruleta;
-var ruleta = new Ruleta(500, 1);
-var resultado = ruleta.girar();
-console.log("El numero ganador es el ".concat(resultado[0], " ").concat(resultado[1]));
+var player = new Jugador_1.Jugador("alexis", 20000);
+var ruleta1 = new Ruleta(player);
+ruleta1.iniciar();

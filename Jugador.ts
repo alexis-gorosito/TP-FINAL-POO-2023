@@ -1,45 +1,82 @@
-export class Jugador {
-    private nombre:string
-    private edad:number
-    public dinero: number;
-    private apuesta: number;
+import { Casino } from "./Casino";
+import { Pantalla } from "./Pantalla";
 
-    public constructor (pNombre:string, pEdad:number, pDinero:number){
-        this.nombre= pNombre;
-        this.edad= pEdad;
-        this.dinero= pDinero;
-        this.apuesta= 0;
+export class Jugador {
+    setApuesta(valor1: number) {
+        throw new Error('Method not implemented.');
     }
-    public getNombre (): string{
-        return this.nombre;
-    }
-    public setNombre(pNombre:string): void{
-        this.nombre = pNombre;
-    }
-    public getEdad (): number{
-        return this.edad;
-    }
-    public setEdad(pEdad:number): void{
-        this.edad = pEdad;
-    }
-    public getDinero (): number{
-        return this.dinero;
-    }
-    public setDinero(pDinero:number): void{
-        this.dinero = pDinero;
-    }
-    public getApuesta (): number{
-        return this.apuesta;
-    }
-    public setApuesta(pApuesta:number): void{
-        this.apuesta = pApuesta;
-    }
-    public dineroActual(ganancias:number){
-        this.dinero += ganancias;
-    }
-    public perdidaDinero(perdidas:number){
-        this.dinero -= perdidas;
-    }
+    private nombre:String;
+    private coin:number;
+    private apostar:number;
     
 
+    public constructor(ParamNombre:String, ParamCoin:number){
+        this.nombre=ParamNombre;
+        this.coin=ParamCoin;
+        this.apostar=0;
+    }
+
+    public getNombre():String{
+        return this.nombre;
+    }
+
+    public setNombre(ParamNombre:string):void {
+        this.nombre=ParamNombre;
+    }
+
+    public getCoin():number{
+        return this.coin;
+    }
+
+    public setCoin(ParamCoin:number):void{
+        this.coin=ParamCoin;
+    }
+
+    public getApostar():number{
+        return this.apostar;
+    } 
+
+    public setApostar(ParamApostar:number):void {
+        this.apostar=ParamApostar;
+    }    
+    
+    public apuesta (ParamPantalla:Pantalla):void {
+
+        do {            
+        
+        } while (ParamPantalla.comparar(this.coin,1,2,this)===false);    
+
+        this.coin= this.coin - this.apostar;                                           
+    }
+
+    public RecargarCoin():void{
+        let saldo:number;
+        console.log("\n")
+        if (this.coin = 0){
+            saldo = Number(prompt('Ingrese la cantidad de fichas que quiere comprar: '));
+            if (saldo >= 0){
+                this.coin = this.coin + saldo;
+            } else {
+                console.log('Ingrese la cantidad de fichas que quiere comprar: ');
+            
+            }
+        } 
+        
+    }
+
+    public jugar(ParamPantalla:Pantalla, ParamCasino:Casino):void{
+        let valor:number;        
+        do {
+            valor = ParamPantalla.menuPantalla();
+            if ((valor>0)&&(valor<5)){
+                ParamCasino.crear(valor,ParamPantalla);
+            } else {
+                if ((valor < 0)||(valor >= 5)) {
+                    console.log("Ingrese una de las opciones del menu");
+                    console.log("\n");                    
+                }
+            }
+            
+        } while(valor != 0);
+    }
 }

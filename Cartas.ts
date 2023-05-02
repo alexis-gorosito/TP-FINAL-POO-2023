@@ -1,15 +1,29 @@
-export class Cartas {
+export class Cartas{
     private cartas : string;
-    public constructor (paramCartas:string){
-      this.cartas = paramCartas;
+        
+    public constructor (ParamCartas:string){
+      this.cartas = ParamCartas;
+    }
+    
+    public setCartas(ParamCartas:string):void{
+            this.cartas = ParamCartas
     }
     public getCartas():string{
-        return this.cartas
+            return this.cartas
     }
-    public setCartas(paramCartas:string):void{
-            this.cartas = paramCartas
+
+    public Palo(ParamPalo:string):Boolean{
+        return this.cartas.includes(ParamPalo)
     }
-    public colorCarta(ParamColor:string):Boolean{
-        return this.cartas.includes(ParamColor)
+
+    public mostrarCarta(ParamCarta:boolean):string {
+      let SolicitarCarta:string;  
+      if (ParamCarta===true){
+        SolicitarCarta = `La carta en la mesa es ${this.cartas}`;
+        } else{
+          SolicitarCarta = `La nueva carta es ${this.cartas}`;
+        }
+        return SolicitarCarta;
     }
 }
+

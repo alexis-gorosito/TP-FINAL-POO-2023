@@ -2,41 +2,64 @@
 exports.__esModule = true;
 exports.Jugador = void 0;
 var Jugador = /** @class */ (function () {
-    function Jugador(pNombre, pEdad, pDinero) {
-        this.nombre = pNombre;
-        this.edad = pEdad;
-        this.dinero = pDinero;
-        this.apuesta = 0;
+    function Jugador(ParamNombre, ParamCoin) {
+        this.nombre = ParamNombre;
+        this.coin = ParamCoin;
+        this.apostar = 0;
     }
+    Jugador.prototype.setApuesta = function (valor1) {
+        throw new Error('Method not implemented.');
+    };
     Jugador.prototype.getNombre = function () {
         return this.nombre;
     };
-    Jugador.prototype.setNombre = function (pNombre) {
-        this.nombre = pNombre;
+    Jugador.prototype.setNombre = function (ParamNombre) {
+        this.nombre = ParamNombre;
     };
-    Jugador.prototype.getEdad = function () {
-        return this.edad;
+    Jugador.prototype.getCoin = function () {
+        return this.coin;
     };
-    Jugador.prototype.setEdad = function (pEdad) {
-        this.edad = pEdad;
+    Jugador.prototype.setCoin = function (ParamCoin) {
+        this.coin = ParamCoin;
     };
-    Jugador.prototype.getDinero = function () {
-        return this.dinero;
+    Jugador.prototype.getApostar = function () {
+        return this.apostar;
     };
-    Jugador.prototype.setDinero = function (pDinero) {
-        this.dinero = pDinero;
+    Jugador.prototype.setApostar = function (ParamApostar) {
+        this.apostar = ParamApostar;
     };
-    Jugador.prototype.getApuesta = function () {
-        return this.apuesta;
+    Jugador.prototype.apuesta = function (ParamPantalla) {
+        do {
+        } while (ParamPantalla.comparar(this.coin, 1, 2, this) === false);
+        this.coin = this.coin - this.apostar;
     };
-    Jugador.prototype.setApuesta = function (pApuesta) {
-        this.apuesta = pApuesta;
+    Jugador.prototype.RecargarCoin = function () {
+        var saldo;
+        console.log("\n");
+        if (this.coin = 0) {
+            saldo = Number(prompt('Ingrese la cantidad de fichas que quiere comprar: '));
+            if (saldo >= 0) {
+                this.coin = this.coin + saldo;
+            }
+            else {
+                console.log('Ingrese la cantidad de fichas que quiere comprar: ');
+            }
+        }
     };
-    Jugador.prototype.dineroActual = function (ganancias) {
-        this.dinero += ganancias;
-    };
-    Jugador.prototype.perdidaDinero = function (perdidas) {
-        this.dinero -= perdidas;
+    Jugador.prototype.jugar = function (ParamPantalla, ParamCasino) {
+        var valor;
+        do {
+            valor = ParamPantalla.menuPantalla();
+            if ((valor > 0) && (valor < 5)) {
+                ParamCasino.crear(valor, ParamPantalla);
+            }
+            else {
+                if ((valor < 0) || (valor >= 5)) {
+                    console.log("Ingrese una de las opciones del menu");
+                    console.log("\n");
+                }
+            }
+        } while (valor != 0);
     };
     return Jugador;
 }());
