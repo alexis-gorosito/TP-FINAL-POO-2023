@@ -1,4 +1,3 @@
-import { publicDecrypt } from 'crypto';
 import { Jugador } from './Jugador';
 
 
@@ -27,11 +26,11 @@ export class Ruleta  {
         console.log(" Girando...");
 
 
-      const nroGanador = Math.floor(Math.random() * 37)
+      const nroGanador = Math.floor(Math.random() * 2)
         console.log(`\n El numero ganador es ${nroGanador}`);
       if(nroApostado == nroGanador){
         console.log(`\n Felcitaciones, usted a ganado...`);
-        const dineroGanado:number = ((this.dinero + this.apuesta) * bonus);
+        const dineroGanado:number = ((bonus * this.apuesta) + this.dinero);
           console.log(`  Su dinero es: $${dineroGanado} \n `);
         
       }
@@ -56,9 +55,10 @@ export class Ruleta  {
 }
     public iniciar():void{
       const readline = require('readline-sync');
-      
+
       console.log(` \n ¡Bienvenido al juego de la Ruleta! \n `);
       console.log(`  Su dinero es: $${this.dinero} \n `);
+
       this.apuesta = readline.question(` \n Ingrese su apuesta: $`);
       console.clear()
 
@@ -74,8 +74,5 @@ export class Ruleta  {
   
   
 
-let player = new Jugador("alexis",20000)
-let ruleta1 = new Ruleta (player)
-ruleta1.iniciar();
 
 

@@ -34,10 +34,11 @@ var Jugador = /** @class */ (function () {
         this.coin = this.coin - this.apostar;
     };
     Jugador.prototype.RecargarCoin = function () {
+        var readline = require('readline-sync');
         var saldo;
         console.log("\n");
         if (this.coin = 0) {
-            saldo = Number(prompt('Ingrese la cantidad de fichas que quiere comprar: '));
+            saldo = readline.question('Ingrese la cantidad de fichas que quiere comprar: ');
             if (saldo >= 0) {
                 this.coin = this.coin + saldo;
             }

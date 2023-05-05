@@ -9,13 +9,13 @@ var TragamonedasFrutas_1 = require("./TragamonedasFrutas");
 var Casino = /** @class */ (function () {
     function Casino(ParamJugador) {
         this.nombre = "Casino";
-        this.tragamonedasAnimales = new TragamonedasAnimales_1.TragamonedasAnimales(500, 1);
-        this.tragamonedasFrutas = new TragamonedasFrutas_1.TragamonedasFrutas(500, 1);
-        this.cartasIguales = new CartasIguales_1.CartasIguales(this.player, "a");
+        this.cartasIguales = new CartasIguales_1.CartasIguales(this.player, "Cartas");
         this.ruleta = new Ruleta_1.Ruleta(this.player);
+        this.tragamonedasAnimales = new TragamonedasAnimales_1.TragamonedasAnimales(100, 1);
+        this.tragamonedasFrutas = new TragamonedasFrutas_1.TragamonedasFrutas(100, 1);
     }
     Casino.Inscripcion = function (jugador) {
-        throw new Error("Method not implemented.");
+        throw new Error("Ingrese un numero");
     };
     Casino.prototype.getNombre = function () {
         return this.nombre;
@@ -34,23 +34,23 @@ var Casino = /** @class */ (function () {
         ParamJugador.setNombre(nombreDeInscripcion);
         ParamJugador.jugar(pantalla, this);
         pantalla.borrarConsola();
-        console.log("Gracias ".concat(ParamJugador.getNombre(), " por apostar en ").concat(this.nombre));
-        console.log("Puede canjear las ".concat(ParamJugador.getCoin(), " fichas que gano"));
-        console.log("Vuelva pronto");
+        console.log("\nGracias ".concat(ParamJugador.getNombre(), " por apostar en nuestro Casino \n"));
+        console.log("Puede canjear las ".concat(ParamJugador.getCoin(), " fichas que gano\n"));
+        console.log("\u00A1 Vuelva pronto !");
     };
     Casino.prototype.crear = function (ParamIndice, ParamPantalla) {
         switch (ParamIndice) {
             case 1:
-                this.tragamonedasAnimales.girar();
-                break;
-            case 2:
-                this.tragamonedasFrutas.girar();
-                break;
-            case 3:
                 this.cartasIguales.jugar(ParamPantalla);
                 break;
-            case 4:
+            case 2:
                 this.ruleta.iniciar();
+                break;
+            case 3:
+                this.tragamonedasAnimales.girar();
+                break;
+            case 4:
+                this.tragamonedasFrutas.girar();
                 break;
             case 0:
                 console.log("Gracias por Elegirnos");

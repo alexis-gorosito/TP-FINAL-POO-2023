@@ -50,10 +50,11 @@ export class Jugador {
     }
 
     public RecargarCoin():void{
+        const readline = require('readline-sync')
         let saldo:number;
         console.log("\n")
         if (this.coin = 0){
-            saldo = Number(prompt('Ingrese la cantidad de fichas que quiere comprar: '));
+            saldo = readline.question('Ingrese la cantidad de fichas que quiere comprar: ');
             if (saldo >= 0){
                 this.coin = this.coin + saldo;
             } else {

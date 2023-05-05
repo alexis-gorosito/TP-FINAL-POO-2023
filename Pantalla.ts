@@ -17,7 +17,7 @@ export class Pantalla {
     }
 
     public bienvenido(ParamTitulo:String):void{
-        console.log(`BIENVENIDO A ${ParamTitulo}\n`.toUpperCase());             
+        console.log(`\n¡ BIENVENIDO A NUESTRO CASINO !\n`.toUpperCase());             
     }
     
     public PantallaInicio(ParamTitulo:String){
@@ -39,44 +39,23 @@ export class Pantalla {
 
    
     public menuPantalla():number{
-       
+        const readline = require('readline-sync')
         let menu= "Menu \N";
          console.clear();        
          console.log("\n");         
          console.log(`            BIENVENIDO           `);
-         console.log(`                                 `);
+         console.log(`\n`);
          console.log(`   ESTOS  SON NUESTROS JUEGOS    `);
-         console.log(`                                 `);
-         console.log("                                 ");        
-        menu+= console.log("   1 -     Cartas Iguales        ");
-        menu+= console.log("   2 -          Ruleta           ");
-        menu+= console.log("   3 -  Tragamonedas Animales    ");
-        menu+= console.log("   4 -     Tragamonedas Frutas   ");
-        console.log("\n");        
-        menu+= console.log("   5 -        Salir              ");  
+         console.log(`\n`);     
+         console.log("   1 -     Cartas Iguales        ");
+         console.log("   2 -     Ruleta                ");
+         console.log("   3 -     Tragamonedas Animales ");
+         console.log("   4 -     Tragamonedas Frutas   ");
+         console.log("\n");        
+         console.log("   0 -     Salir                 ");  
         
-        let opcion = 0;
-        const readline = require('readline-sync')
-        do{
-        opcion = readline.question(`Seleccione un juego: `);
-        
-        switch(opcion){
-                case 1:document.write('1 - Cartas Iguales \n');
-                break;
-                case 2:document.write('2 - Ruleta \n');
-                break;
-                case 3:document.write('3 - Tragamonedas Animales \n');
-                break;
-                case 4:document.write('4 - Tragamonedas B \n');
-                break;
-                case 5:document.write('5 - Salir \n');
-                break;
-                default:document.write('Selecciones una de las opciones');
-                break;
-            }
-             } while (opcion!= 5);
-    
-             return opcion
+      return readlineSync.questionInt("\n Ingrese una opcion del menu: ".toUpperCase())
+      this.borrarConsola();
     }
 
 

@@ -1,7 +1,6 @@
 "use strict";
 exports.__esModule = true;
 exports.Ruleta = void 0;
-var Jugador_1 = require("./Jugador");
 var Ruleta = /** @class */ (function () {
     function Ruleta(pJugador) {
         this.jugador = pJugador;
@@ -16,11 +15,11 @@ var Ruleta = /** @class */ (function () {
         console.clear();
         console.log("\n Girando...");
         console.log(" Girando...");
-        var nroGanador = Math.floor(Math.random() * 37);
+        var nroGanador = Math.floor(Math.random() * 2);
         console.log("\n El numero ganador es ".concat(nroGanador));
         if (nroApostado == nroGanador) {
             console.log("\n Felcitaciones, usted a ganado...");
-            var dineroGanado = ((this.dinero + this.apuesta) * bonus);
+            var dineroGanado = ((bonus * this.apuesta) + this.dinero);
             console.log("  Su dinero es: $".concat(dineroGanado, " \n "));
         }
         else {
@@ -59,6 +58,3 @@ var Ruleta = /** @class */ (function () {
     return Ruleta;
 }());
 exports.Ruleta = Ruleta;
-var player = new Jugador_1.Jugador("alexis", 20000);
-var ruleta1 = new Ruleta(player);
-ruleta1.iniciar();
