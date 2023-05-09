@@ -9,7 +9,7 @@ var TragamonedasFrutas_1 = require("./TragamonedasFrutas");
 var Casino = /** @class */ (function () {
     function Casino(ParamJugador) {
         this.nombre = "Casino";
-        this.cartasIguales = new CartasIguales_1.CartasIguales(this.player, "Cartas");
+        this.cartasIguales = new CartasIguales_1.CartasIguales(this.player);
         this.ruleta = new Ruleta_1.Ruleta(this.player);
         this.tragamonedasAnimales = new TragamonedasAnimales_1.TragamonedasAnimales(100, 1);
         this.tragamonedasFrutas = new TragamonedasFrutas_1.TragamonedasFrutas(100, 1);
@@ -41,7 +41,7 @@ var Casino = /** @class */ (function () {
     Casino.prototype.crear = function (ParamIndice, ParamPantalla) {
         switch (ParamIndice) {
             case 1:
-                this.cartasIguales.jugar(ParamPantalla);
+                this.cartasIguales.iniciar();
                 break;
             case 2:
                 this.ruleta.iniciar();

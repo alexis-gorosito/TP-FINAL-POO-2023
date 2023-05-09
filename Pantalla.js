@@ -30,7 +30,6 @@ var Pantalla = /** @class */ (function () {
     };
     Pantalla.prototype.menuPantalla = function () {
         var readline = require('readline-sync');
-        var menu = "Menu \N";
         console.clear();
         console.log("\n");
         console.log("            BIENVENIDO           ");
@@ -44,7 +43,6 @@ var Pantalla = /** @class */ (function () {
         console.log("\n");
         console.log("   0 -     Salir                 ");
         return readlineSync.questionInt("\n Ingrese una opcion del menu: ".toUpperCase());
-        this.borrarConsola();
     };
     Pantalla.prototype.comparar = function (ParamMaximo, ParamMinimo, situacion, ParamJugador) {
         var condicion = false;

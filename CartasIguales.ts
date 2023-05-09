@@ -1,29 +1,29 @@
 import { Cartas } from './Cartas';
-import { Jugador } from './Jugador';
 import { Mazo } from './Mazo';
-import { Pantalla } from './Pantalla';
-
-export class CartasIguales{
-    private titulo:string;
+import { Jugador } from './Jugador';
+​
+export class CartasIguales {
     private carta1:Cartas;
     private carta2:Cartas;
     private jugador:Jugador;
     private mazo:Mazo;
-    private mazo2: Mazo;
-
-    public constructor(ParamJugador:Jugador,ParamTitulo:string){
+    private apuesta:number;
+    private Coin: number;
+    public readline = require('readline-sync')
+​
+​
+    public constructor(ParamJugador:Jugador){
         this.mazo = new Mazo();
-        this.mazo2= new Mazo();
-        this.titulo = ParamTitulo;
-        this.carta1 = new Cartas("Instrucciones");
-        this.carta2 = new Cartas("Dorso");
+        this.carta1 = new Cartas('Carta 1');
+        this.carta2 = new Cartas('Carta 2');
         this.jugador = ParamJugador;
+        this.Coin = this.Coin;
+        this.apuesta = this.apuesta;       
     }
-
-    public getNombre():string{
-        return this.titulo;
-    }  
-    public getCarta1():Cartas{
+​
+    
+ 
+    public getCarta1():Cartas{    
         return this.carta1;
     }
     public setCarta1(ParamCarta1:Cartas){
@@ -35,89 +35,63 @@ export class CartasIguales{
     public setCarta2(ParamCarta2:Cartas){
         this.carta2 = ParamCarta2;
     }
-
-    private cantidadCartasMazo():number{              
-        return 108-this.mazo.getDescarte().length;
-    }
-
+​
    
-    private verificar():boolean{                                                                     
-        let condicion:boolean = false;
-        if(parseInt(this.carta1.getCartas().replace(/\D/g, "")) === parseInt(this.carta2.getCartas().replace(/\D/g, ""))){ 
-            condicion = true   
+​
+    public jugar():void{
+​
+        const readline = require('readline-sync');
+​
+        let cantidadCartasMazo = 108-this.mazo.getDescarte().length;
+        let verificar:boolean = false;
+            if(parseInt(this.carta1.getCartas().replace(/\D/g, "")) === parseInt(this.carta2.getCartas().replace(/\D/g, ""))){ 
+                verificar = true   
+            
+            } else {
+                verificar = false;
+            }
+​
+        let Apuesta = this.apuesta;
+        let fichas = this.Coin;
+        console.clear()
         
-        } else {
-            condicion=false;
-        }
-        return condicion;
-    }
-
-    private Premio(ParamApuesta:number):number{
-        let premio:number=0; 
-
-        if ((ParamApuesta!=0)&&(this.verificar()===true)){ 
-            premio = 10 * this.jugador.getApostar();   
+        if ((Apuesta > 0) && (verificar === true)){ 
+            let Premio = 10 * Apuesta;            
+            console.log(`\n Felcitaciones, a ganado ${Premio + fichas} `);           
             } else {                                                                                        
-                this.jugador.getApostar() - this.jugador.getApostar();
-                }
-            
-        
-        return premio;
+             let Perdio = fichas - Apuesta;
+             console.log(`\n ¡Que mala suerte, a perdido!`);
+             console.log(`  Su dinero es: ${Perdio} \n `);
+​
+             this.SeguirJugando();             
+                }        
+  
     }
-
-
-    private entregarPremio(ParamApuesta:number):string[]{                                                      
-        let premio:string[] = new Array;
-        const valor = this.Premio(ParamApuesta);                                                            
-        premio.push(`${`SU APUESTA ES DE: ${this.jugador.getApostar()}\n`}`);
-        if(valor!==0){
-            premio.push(`Felicitaciones... gano`.toUpperCase());                                            
-            premio.push(`Su premio es de ${valor}`);
-            this.jugador.setCoin(valor + this.jugador.getCoin());
+​
+​
+    public SeguirJugando():void{
+        const readline = require('readline-sync');
+          let seguirJugando = readline.question(`\n ¿Quiere seguir jugando? [S/N] `)
+           console.clear()
+          if(seguirJugando.toLowerCase() === "n"){
+          console.log(`\n Gracias por jugar a Cartas Iguales, vuelva pronto!`);
         } else {
-            premio.push(`Usted Perdio`.toUpperCase());                                        
+          this.jugar();
         }
-        premio.push(`le quedan ${this.jugador.getCoin()} fichas`);                                  
-        return premio;
-    }
-
-
-
-    public jugar(ParamPantalla:Pantalla):void {                                                                 
-        let SolicitarPantalla: string[] = new Array();                                                            
-        let valor:number;                                                                                      
-        let condicion:boolean = false;                                                                        
-        this.mazo.cargarMazo();                                                                                  
-        this.carta2 = this.mazo.darCarta();                                                                        
-        ParamPantalla.borrarConsola();                                                                                
-        ParamPantalla.bienvenido(this.titulo);                                                                         
-        do {
-            this.carta1 = this.carta2;                                                                        
-            this.carta2 = this.mazo.darCarta();                                                                   
-            SolicitarPantalla=[];
-            SolicitarPantalla.push(`${this.carta1.mostrarCarta(true)} \n`);                                           
-            SolicitarPantalla.push(`Su dinero actual es de ${this.jugador.getCoin()}\n`)                                 
-            ParamPantalla.setPantalla(SolicitarPantalla);                                                        
-            SolicitarPantalla=[];                                                                                 
-            ParamPantalla.PantallaInicio(this.titulo);                                                    
-            this.jugador.apuesta(ParamPantalla);                                                               
-            SolicitarPantalla.push(`${this.carta2.mostrarCarta(false)} \n`);                               
-            do {                                                                                              
-                valor = Number(prompt(`Ingrese 0 para seleccionar cartas distintas y 1 para cartas iguales: `));
-                if(valor!=0){
-                    SolicitarPantalla.push.apply(SolicitarPantalla,this.entregarPremio(valor))                    
-                    ParamPantalla.setPantalla(SolicitarPantalla);                                                      
-                    condicion=true;                                                           
-                } else {
-                    console.log('Usted perdio');
-                } 
-            } while (condicion===false);               
-            
-            ParamPantalla.mostrar();                        
-            console.log("\n");        
-
-        } while(this.jugador.getCoin()>0)
+  }
+      
+  
+    public iniciar():void{
+        let readline = require('readline-sync');
+        console.log(` \n Bienvenido a Cartas Iguales \n `); 
+        this.Coin = this.readline.question(`¿Cuantas fichas desea comprar? `);     
+        this.apuesta = this.readline.question(` \n ¿cuanto desea Apostar: $`);
+        console.clear()
+          
+        if (this.Coin >= this.apuesta){
+          this.jugar();  
+        }else{
+             console.log(`\n Ingrese mas fichas para poder jugar`);
+          }
+   }
 }
-}
-
-

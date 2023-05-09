@@ -19,7 +19,7 @@ export class Casino{
 
     public constructor(ParamJugador:Jugador){
         this.nombre = "Casino";
-        this.cartasIguales = new CartasIguales(this.player,"Cartas"); 
+        this.cartasIguales = new CartasIguales(this.player); 
         this.ruleta = new Ruleta(this.player); 
         this.tragamonedasAnimales = new TragamonedasAnimales(100,1); 
         this.tragamonedasFrutas = new TragamonedasFrutas(100,1); 
@@ -52,7 +52,7 @@ export class Casino{
     public crear(ParamIndice:number, ParamPantalla:Pantalla):void{
         switch (ParamIndice) {
         case 1: 
-            this.cartasIguales.jugar(ParamPantalla); 
+            this.cartasIguales.iniciar(); 
             break;
         case 2:
             this.ruleta.iniciar();

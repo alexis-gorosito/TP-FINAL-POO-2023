@@ -40,7 +40,7 @@ export class Pantalla {
    
     public menuPantalla():number{
         const readline = require('readline-sync')
-        let menu= "Menu \N";
+
          console.clear();        
          console.log("\n");         
          console.log(`            BIENVENIDO           `);
@@ -55,7 +55,7 @@ export class Pantalla {
          console.log("   0 -     Salir                 ");  
         
       return readlineSync.questionInt("\n Ingrese una opcion del menu: ".toUpperCase())
-      this.borrarConsola();
+
     }
 
 

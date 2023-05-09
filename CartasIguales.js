@@ -4,17 +4,15 @@ exports.CartasIguales = void 0;
 var Cartas_1 = require("./Cartas");
 var Mazo_1 = require("./Mazo");
 var CartasIguales = /** @class */ (function () {
-    function CartasIguales(ParamJugador, ParamTitulo) {
+    function CartasIguales(ParamJugador) {
+        this.readline = require('readline-sync');
         this.mazo = new Mazo_1.Mazo();
-        this.mazo2 = new Mazo_1.Mazo();
-        this.titulo = ParamTitulo;
-        this.carta1 = new Cartas_1.Cartas("Instrucciones");
-        this.carta2 = new Cartas_1.Cartas("Dorso");
+        this.carta1 = new Cartas_1.Cartas('Carta 1');
+        this.carta2 = new Cartas_1.Cartas('Carta 2');
         this.jugador = ParamJugador;
+        this.Coin = this.Coin;
+        this.apuesta = this.apuesta;
     }
-    CartasIguales.prototype.getNombre = function () {
-        return this.titulo;
-    };
     CartasIguales.prototype.getCarta1 = function () {
         return this.carta1;
     };
@@ -27,77 +25,53 @@ var CartasIguales = /** @class */ (function () {
     CartasIguales.prototype.setCarta2 = function (ParamCarta2) {
         this.carta2 = ParamCarta2;
     };
-    CartasIguales.prototype.cantidadCartasMazo = function () {
-        return 108 - this.mazo.getDescarte().length;
-    };
-    CartasIguales.prototype.verificar = function () {
-        var condicion = false;
+    CartasIguales.prototype.jugar = function () {
+        var readline = require('readline-sync');
+        var cantidadCartasMazo = 108 - this.mazo.getDescarte().length;
+        var verificar = false;
         if (parseInt(this.carta1.getCartas().replace(/\D/g, "")) === parseInt(this.carta2.getCartas().replace(/\D/g, ""))) {
-            condicion = true;
+            verificar = true;
         }
         else {
-            condicion = false;
+            verificar = false;
         }
-        return condicion;
-    };
-    CartasIguales.prototype.Premio = function (ParamApuesta) {
-        var premio = 0;
-        if ((ParamApuesta != 0) && (this.verificar() === true)) {
-            premio = 10 * this.jugador.getApostar();
-        }
-        else {
-            this.jugador.getApostar() - this.jugador.getApostar();
-        }
-        return premio;
-    };
-    CartasIguales.prototype.entregarPremio = function (ParamApuesta) {
-        var premio = new Array;
-        var valor = this.Premio(ParamApuesta);
-        premio.push("".concat("SU APUESTA ES DE: ".concat(this.jugador.getApostar(), "\n")));
-        if (valor !== 0) {
-            premio.push("Felicitaciones... gano".toUpperCase());
-            premio.push("Su premio es de ".concat(valor));
-            this.jugador.setCoin(valor + this.jugador.getCoin());
+        var Apuesta = this.apuesta;
+        var fichas = this.Coin;
+        console.clear();
+        if ((Apuesta > 0) && (verificar === true)) {
+            var Premio = 10 * Apuesta;
+            console.log("\n Felcitaciones, a ganado ".concat(Premio + fichas, " "));
         }
         else {
-            premio.push("Usted Perdio".toUpperCase());
+            var Perdio = fichas - Apuesta;
+            console.log("\n \u00A1Que mala suerte, a perdido!");
+            console.log("  Su dinero es: ".concat(Perdio, " \n "));
+            this.SeguirJugando();
         }
-        premio.push("le quedan ".concat(this.jugador.getCoin(), " fichas"));
-        return premio;
     };
-    CartasIguales.prototype.jugar = function (ParamPantalla) {
-        var SolicitarPantalla = new Array();
-        var valor;
-        var condicion = false;
-        this.mazo.cargarMazo();
-        this.carta2 = this.mazo.darCarta();
-        ParamPantalla.borrarConsola();
-        ParamPantalla.bienvenido(this.titulo);
-        do {
-            this.carta1 = this.carta2;
-            this.carta2 = this.mazo.darCarta();
-            SolicitarPantalla = [];
-            SolicitarPantalla.push("".concat(this.carta1.mostrarCarta(true), " \n"));
-            SolicitarPantalla.push("Su dinero actual es de ".concat(this.jugador.getCoin(), "\n"));
-            ParamPantalla.setPantalla(SolicitarPantalla);
-            SolicitarPantalla = [];
-            ParamPantalla.PantallaInicio(this.titulo);
-            this.jugador.apuesta(ParamPantalla);
-            SolicitarPantalla.push("".concat(this.carta2.mostrarCarta(false), " \n"));
-            do {
-                valor = Number(prompt("Ingrese 0 para seleccionar cartas distintas y 1 para cartas iguales: "));
-                if (valor != 0) {
-                    SolicitarPantalla.push.apply(SolicitarPantalla, this.entregarPremio(valor));
-                    ParamPantalla.setPantalla(SolicitarPantalla);
-                    condicion = true;
-                }
-                else {
-                    console.log('Usted perdio');
-                }
-            } while (condicion === false);
-            ParamPantalla.mostrar();
-            console.log("\n");
-        } while (this.jugador.getCoin() > 0);
+    CartasIguales.prototype.SeguirJugando = function () {
+        var readline = require('readline-sync');
+        var seguirJugando = readline.question("\n \u00BFQuiere seguir jugando? [S/N] ");
+        console.clear();
+        if (seguirJugando.toLowerCase() === "n") {
+            console.log("\n Gracias por jugar a Cartas Iguales, vuelva pronto!");
+        }
+        else {
+            this.jugar();
+        }
+    };
+    CartasIguales.prototype.iniciar = function () {
+        var readline = require('readline-sync');
+        console.log(" \n Bienvenido a Cartas Iguales \n ");
+        this.Coin = this.readline.question("\u00BFCuantas fichas desea comprar? ");
+        this.apuesta = this.readline.question(" \n \u00BFcuanto desea Apostar: $");
+        console.clear();
+        if (this.Coin >= this.apuesta) {
+            this.jugar();
+        }
+        else {
+            console.log("\n Ingrese mas fichas para poder jugar");
+        }
     };
     return CartasIguales;
 }());
